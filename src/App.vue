@@ -15,17 +15,25 @@
       <MeasurementTracker v-if="currentView === 'measurements'" />
       <CycleTracker v-if="currentView === 'cycle'" />
     </main>
-  </div>
+
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import WorkoutLogger from './components/workout/WorkoutLogger.vue'
 import MeasurementTracker from './components/measurements/MeasurementTracker.vue'
 import CycleTracker from './components/cycle/CycleTracker.vue'
+import {storageService} from "@/services/storageService.js";
 
 // This controls which section is shown
 const currentView = ref('workout')
+
+
+// Load data when app starts
+onMounted(() => {
+  const existingWorkouts = storageService.loadWorkouts()
+  console.log('App started. Existing workouts:', existingWorkouts)
+})
 </script>
 
 <style>
